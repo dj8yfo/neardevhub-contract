@@ -5,7 +5,7 @@ counter := `echo -n $COMMON_TEST_CASE_ACCOUNT_ID`
 
 # devhub group
 
-devhub_test_contract := "devhub-test-" + counter + ".testnet"
+devhub_test_contract := "devhub-" + counter + ".testnet"
 devhub_deposit := "'30 NEAR'"
 
 # ====================
@@ -17,7 +17,7 @@ community_factory_deposit := "'20 NEAR'"
 # ====================
 # community group
 
-community_handle := 'gothamuniquehandle3'
+community_handle := 'uniquehandle'
 community_contract := community_handle + "." + community_factory_contract
 
 # ====================

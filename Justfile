@@ -1,7 +1,7 @@
 import? 'local.just'
 
 funder_account := "cargo_near_test_workflows.testnet"
-counter := "4"
+counter := `echo -n $COMMON_TEST_CASE_ACCOUNT_ID`
 
 # devhub group
 

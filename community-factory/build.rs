@@ -3,13 +3,19 @@ use cargo_near_build::extended::BuildScriptOpts;
 fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     println!("cargo:warning={}", format!("`devhub-community-factory` build script working dir: {:?}", std::env::current_dir().expect("get current dir")));
 
+    let env = ["KEY", "GOOGLE_QUERY"]
+        .into_iter()
+        .filter(|key| std::env::var(key).is_ok())
+        .map(|key| (key.to_string(), std::env::var(key).unwrap()))
+        .collect::<Vec<_>>();
+
     let opts = cargo_near_build::extended::BuildOptsExtended {
         workdir: "../community",
         env: vec![
             // unix path of target contract from root of repo
             (cargo_near_build::env_keys::nep330::CONTRACT_PATH, "community")
         ], 
-        build_opts: Default::default(),
+        build_opts: cargo_near_build::BuildOpts { env, ..Default::default() },
         build_script_opts: BuildScriptOpts {
             result_env_key: Some("BUILD_RS_SUB_BUILD_DEVHUB-COMMUNITY"),
             rerun_if_changed_list: vec!["../discussions", "../community", "Cargo.toml", "../Cargo.lock"],

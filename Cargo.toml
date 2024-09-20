@@ -8,7 +8,7 @@ repository = "https://github.com/dj8yfo/neardevhub-contract"
 near-sdk = "5.5.0"
 near-contract-standards = "5.5.0"
 devhub_common = { path = "./devhub_common" }
-cargo-near-build = "0.1.0"
+cargo-near-build = { version = "0.1.1", git = "https://github.com/dj8yfo/cargo-near.git", branch = "env_flag_for_docker_build_and_not"}
 
 [package]
 name = "devhub"

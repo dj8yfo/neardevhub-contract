@@ -24,9 +24,9 @@ crate-type = ["cdylib"]
 # in https://github.com/near/NEPs/blob/master/neps/nep-0330.md 
 [package.metadata.near.reproducible_build]
 # image from cargo-near pull#198
-image = "dj8yfo/sourcescan:0.x.x-dev-pr-226"
+image = "dj8yfo/sourcescan:0.x.x-dev-pr-226-afr"
 # tag after colon above serves only descriptive purpose; image is identified by digest
-image_digest = "sha256:a33c44bc06ae8411458fb23cf57b6d760f51592481276f66f5bc292ed6b80378"
+image_digest = "sha256:6f006db564c5d7183fcb50ead39dac6a806c513f543e3775e8525b1d6ed2715e"
 passed_env = ["KEY", "GOOGLE_QUERY"]
 container_build_command = ["cargo", "near", "build"]
 

@@ -361,7 +361,7 @@ dependencies = [
 [[package]]
 name = "cargo-near-build"
 version = "0.1.1"
-source = "git+https://github.com/dj8yfo/cargo-near.git?branch=env_flag_for_docker_build_and_not#8f6dd73da062ff561897bc5c1c6174d4ab00144e"
+source = "git+https://github.com/dj8yfo/cargo-near.git?branch=remove_unsafe_std_env_set_var#c021279158f493841c51eae68281c9f82183dde9"
 dependencies = [
  "bs58 0.5.1",
  "camino",
@@ -664,7 +664,7 @@ name = "devhub"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=env_flag_for_docker_build_and_not)",
+ "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=remove_unsafe_std_env_set_var)",
  "devhub_common",
  "html-escape",
  "insta",
@@ -680,7 +680,7 @@ dependencies = [
 name = "devhub-community"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=env_flag_for_docker_build_and_not)",
+ "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=remove_unsafe_std_env_set_var)",
  "devhub_common",
  "near-sdk",
 ]
@@ -689,7 +689,7 @@ dependencies = [
 name = "devhub-community-factory"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=env_flag_for_docker_build_and_not)",
+ "cargo-near-build 0.1.1 (git+https://github.com/dj8yfo/cargo-near.git?branch=remove_unsafe_std_env_set_var)",
  "devhub_common",
  "near-sdk",
 ]

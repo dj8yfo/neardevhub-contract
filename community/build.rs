@@ -17,11 +17,14 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
 
     let opts = cargo_near_build::extended::BuildOptsExtended {
         workdir: "../discussions",
-        env: vec![
-            // unix path of target contract from root of repo
-            (cargo_near_build::env_keys::nep330::CONTRACT_PATH, "discussions"),
-        ],
-        build_opts: cargo_near_build::BuildOpts { env, ..Default::default() },
+        build_opts: cargo_near_build::BuildOpts {
+            env,
+            mute_env: vec![
+                // unix path of target contract from root of repo
+                (cargo_near_build::env_keys::nep330::CONTRACT_PATH.into(), "discussions".into()),
+            ],
+            ..Default::default()
+        },
         build_script_opts: BuildScriptOpts {
             result_env_key: Some("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS"),
             rerun_if_changed_list: vec!["../discussions", "Cargo.toml", "../Cargo.lock"],

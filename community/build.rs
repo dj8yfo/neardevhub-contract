@@ -23,6 +23,7 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     let build_opts = BuildOpts::builder().env(env).build();
 
     let pwd = std::env::current_dir().expect("get pwd");
+    // a distinct target is needed to avoid deadlock during build
     let distinct_target = pwd.join("../target/build-rs-discussions-for-community");
     let stub_path = pwd.join("../target/discussions-stub.bin");
 

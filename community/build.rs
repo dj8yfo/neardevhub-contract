@@ -1,4 +1,5 @@
-use cargo_near_build::extended::BuildScriptOpts;
+use cargo_near_build::{bon, extended};
+use cargo_near_build::{BuildImplicitEnvOpts, BuildOpts};
 
 fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     println!(
@@ -8,6 +9,10 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
             std::env::current_dir().expect("get current dir")
         )
     );
+    // directory of target `devhub-discussions` sub-contract's crate
+    let workdir = "../discussions";
+    // unix path to target `devhub-discussions` sub-contract's crate from root of the repo
+    let nep330_contract_path = "discussions";
 
     let env = ["KEY", "GOOGLE_QUERY"]
         .into_iter()
@@ -15,29 +20,35 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
         .map(|key| (key.to_string(), std::env::var(key).unwrap()))
         .collect::<Vec<_>>();
 
-    let opts = cargo_near_build::extended::BuildOptsExtended {
-        workdir: "../discussions",
-        build_opts: cargo_near_build::BuildOpts {
-            env,
-            mute_env: vec![
-                // unix path of target contract from root of repo
-                (cargo_near_build::env_keys::nep330::CONTRACT_PATH.into(), "discussions".into()),
-            ],
-            ..Default::default()
-        },
-        build_script_opts: BuildScriptOpts {
-            result_env_key: Some("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS"),
-            rerun_if_changed_list: vec!["../discussions", "Cargo.toml", "../Cargo.lock"],
-            build_skipped_when_env_is: vec![
-                // shorter build for `cargo check`
-                ("PROFILE", "debug"),
-                (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
-            ],
-            distinct_target_dir: Some("../target/build-rs-discussions-for-community"),
-            stub_path: Some("../target/discussions-stub.bin"),
-        },
-    };
+    let build_opts = BuildOpts::builder().env(env).build();
 
-    cargo_near_build::extended::build(opts)?;
+    let pwd = std::env::current_dir().expect("get pwd");
+    let distinct_target = pwd.join("../target/build-rs-discussions-for-community");
+    let stub_path = pwd.join("../target/discussions-stub.bin");
+
+
+    let build_implicit_env_opts = BuildImplicitEnvOpts::builder()
+        .nep330_contract_path(nep330_contract_path)
+        .cargo_target_dir(distinct_target.to_string_lossy())
+        .build();
+
+    let build_script_opts = extended::BuildScriptOpts::builder()
+        .rerun_if_changed_list(bon::vec![workdir, "Cargo.toml", "../Cargo.lock"])
+        .build_skipped_when_env_is(vec![
+            // shorter build for `cargo check`
+            ("PROFILE", "debug"),
+            (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
+        ])
+        .stub_path(stub_path.to_string_lossy())
+        .result_env_key("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS")
+        .build();
+
+    let extended_opts = extended::BuildOptsExtended::builder()
+        .workdir(workdir)
+        .build_opts(build_opts)
+        .build_implicit_env_opts(build_implicit_env_opts)
+        .build_script_opts(build_script_opts)
+        .build();
+    cargo_near_build::extended::build(extended_opts)?;
     Ok(())
 }

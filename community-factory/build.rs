@@ -1,4 +1,4 @@
-use cargo_near_build::extended::BuildScriptOpts;
+use cargo_near_build::{extended::BuildScriptOpts, BuildOpts};
 
 fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     println!(
@@ -9,13 +9,24 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
         )
     );
 
+    let env = ["KEY", "GOOGLE_QUERY"]
+        .into_iter()
+        .filter(|key| std::env::var(key).is_ok())
+        .map(|key| (key.to_string(), std::env::var(key).unwrap()))
+        .collect::<Vec<_>>();
+
+    let build_opts = BuildOpts {
+        env,
+        ..Default::default()
+    };
+
     let opts = cargo_near_build::extended::BuildOptsExtended {
         workdir: "../community",
         env: vec![
             // unix path of target contract from root of repo
             (cargo_near_build::env_keys::nep330::CONTRACT_PATH, "community"),
         ],
-        build_opts: Default::default(),
+        build_opts,
         build_script_opts: BuildScriptOpts {
             result_env_key: Some("BUILD_RS_SUB_BUILD_DEVHUB-COMMUNITY"),
             rerun_if_changed_list: vec![

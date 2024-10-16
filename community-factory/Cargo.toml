@@ -11,14 +11,11 @@ crate-type = ["cdylib"]
 # fields to configure build with WASM reproducibility, according to specs  
 # in https://github.com/near/NEPs/blob/master/neps/nep-0330.md 
 [package.metadata.near.reproducible_build]
-# docker image, descriptor of build environment
-image = "sourcescan/cargo-near:0.8.2-rust-1.81.0"
+# image from cargo-near pull#198
+image = "dj8yfo/sourcescan:0.x.x-dev-pr-231-nightly"
 # tag after colon above serves only descriptive purpose; image is identified by digest
-image_digest = "sha256:3b5e6efa1d0cef710009f9cc20c845d316187cc170455edc5ba7fdf471c19655"
-# build command inside of docker container 
-# if docker image from default gallery is used https://hub.docker.com/r/sourcescan/cargo-near/tags,
-# the command may be any combination of flags of `cargo-near`,
-# supported by respective version of binary inside the container besides `--no-locked` flag
+image_digest = "sha256:bea8f17ef8d18a3ac1108733277495c5b2c9e64351a0b34d755458b30b6a1933"
+passed_env = ["KEY", "GOOGLE_QUERY"]
 container_build_command = ["cargo", "near", "build"]
 
 [dependencies]

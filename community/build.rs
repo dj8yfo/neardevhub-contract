@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
-use cargo_near_build::{bon, camino, extended};
 use cargo_near_build::BuildOpts;
+use cargo_near_build::{bon, camino, extended};
 
 fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     // directory of target `devhub-discussions` sub-contract's crate
@@ -9,17 +9,10 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
     // unix path to target `devhub-discussions` sub-contract's crate from root of the repo
     let nep330_contract_path = "discussions";
 
-    let manifest = camino::Utf8PathBuf::from_str(workdir)
-        .expect("pathbuf from str")
-        .join("Cargo.toml");
+    let manifest =
+        camino::Utf8PathBuf::from_str(workdir).expect("pathbuf from str").join("Cargo.toml");
 
-    let env = ["KEY", "GOOGLE_QUERY"]
-        .into_iter()
-        .filter(|key| std::env::var(key).is_ok())
-        .map(|key| (key.to_string(), std::env::var(key).unwrap()))
-        .collect::<Vec<_>>();
-
-    let build_opts = BuildOpts::builder().env(env)
+    let build_opts = BuildOpts::builder()
         .manifest_path(manifest)
         .override_nep330_contract_path(nep330_contract_path)
         // a distinct target is needed to avoid deadlock during build

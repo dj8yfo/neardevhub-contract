@@ -13,13 +13,7 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
         .expect("pathbuf from str")
         .join("Cargo.toml");
 
-    let env = ["KEY", "GOOGLE_QUERY"]
-        .into_iter()
-        .filter(|key| std::env::var(key).is_ok())
-        .map(|key| (key.to_string(), std::env::var(key).unwrap()))
-        .collect::<Vec<_>>();
-
-    let build_opts = BuildOpts::builder().env(env)
+    let build_opts = BuildOpts::builder()
         .manifest_path(manifest)
         .override_nep330_contract_path(nep330_contract_path)
         // a distinct target is needed to avoid deadlock during build

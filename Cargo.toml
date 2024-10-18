@@ -8,7 +8,7 @@ repository = "https://github.com/dj8yfo/neardevhub-contract"
 near-sdk = "5.5.0"
 near-contract-standards = "5.5.0"
 devhub_common = { path = "./devhub_common" }
-cargo-near-build = { version = "0.1.1", git = "https://github.com/dj8yfo/cargo-near.git", branch = "remove_unsafe_std_env_set_var"}
+cargo-near-build = { version = "0.2.0", git = "https://github.com/dj8yfo/cargo-near.git", rev = "973c4d86230036b1c6f4a3c0f15db16d9e0415ff" }
 
 [package]
 name = "devhub"
@@ -26,7 +26,7 @@ crate-type = ["cdylib"]
 # image from cargo-near pull#198
 image = "dj8yfo/sourcescan:0.x.x-dev-pr-228"
 # tag after colon above serves only descriptive purpose; image is identified by digest
-image_digest = "sha256:b93d3b10749ee10b37eabe4823103b8a0e19181386a08fe4f34c8bd2c3c3874e"
+image_digest = "sha256:35b35645c33d6271d06e339f7bfd1bfc276384e7285767a25c30506f4aeb3d03"
 passed_env = ["KEY", "GOOGLE_QUERY"]
 container_build_command = ["cargo", "near", "build"]
 
@@ -41,7 +41,9 @@ html-escape = "0.2.13"
 near-sdk = { workspace = true, features = ["unit-testing"] }
 insta = { version = "1.31.0", features = ["json", "redactions"] }
 regex = "1"
-near-workspaces = { version = "0.14.0", features = ["unstable"], default-features = false  }
+near-workspaces = { version = "0.14.0", features = [
+  "unstable",
+], default-features = false }
 cargo-near-build.workspace = true
 tokio = { version = "1.10.0", features = ["full"] }
 anyhow = "1.0"

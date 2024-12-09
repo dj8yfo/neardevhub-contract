@@ -44,7 +44,7 @@ create_devhub_test_account:
 
 [group('devhub')]
 deploy_devhub: create_devhub_test_account
-    cargo near deploy {{ devhub_test_contract }} with-init-call new \
+    cargo near deploy build-reproducible-wasm {{ devhub_test_contract }} with-init-call new \
     json-args {} prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' \
     network-config testnet sign-with-keychain send
 
@@ -57,7 +57,7 @@ create_community_factory_subaccount:
 
 [group('community-factory')]
 deploy_community_factory: create_community_factory_subaccount
-    cd community-factory && cargo near deploy {{ community_factory_contract }} \
+    cd community-factory && cargo near deploy build-reproducible-wasm {{ community_factory_contract }} \
         without-init-call network-config testnet \
         sign-with-keychain send
 
@@ -71,7 +71,7 @@ call_create_community_from_devhub:
 [group('template-deploy-from-faucet')]
 _create_acc_and_deploy folder contract_account:
     near account create-account sponsor-by-faucet-service {{ contract_account }} autogenerate-new-keypair save-to-keychain network-config testnet create || true
-    cd {{ folder }} && cargo near deploy {{ contract_account }} \
+    cd {{ folder }} && cargo near deploy build-reproducible-wasm {{ contract_account }} \
         without-init-call network-config testnet \
         sign-with-keychain send
 

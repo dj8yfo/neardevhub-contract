@@ -383,8 +383,8 @@ dependencies = [
 
 [[package]]
 name = "cargo-near-build"
-version = "0.2.0"
-source = "git+https://github.com/dj8yfo/cargo-near.git?rev=973c4d86230036b1c6f4a3c0f15db16d9e0415ff#973c4d86230036b1c6f4a3c0f15db16d9e0415ff"
+version = "0.3.2"
+source = "git+https://github.com/near/cargo-near.git?rev=333a91614bcc71b21843294fbe53b4f2b0c67736#333a91614bcc71b21843294fbe53b4f2b0c67736"
 dependencies = [
  "bon",
  "bs58 0.5.1",
@@ -395,6 +395,7 @@ dependencies = [
  "eyre",
  "hex",
  "humantime",
+ "indenter",
  "libloading",
  "near-abi",
  "rustc_version",
@@ -744,7 +745,7 @@ name = "devhub"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "cargo-near-build 0.2.0",
+ "cargo-near-build 0.3.2",
  "devhub_common",
  "html-escape",
  "insta",
@@ -760,7 +761,7 @@ dependencies = [
 name = "devhub-community"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.2.0",
+ "cargo-near-build 0.3.2",
  "devhub_common",
  "near-sdk",
 ]
@@ -769,7 +770,7 @@ dependencies = [
 name = "devhub-community-factory"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.2.0",
+ "cargo-near-build 0.3.2",
  "devhub_common",
  "near-sdk",
 ]

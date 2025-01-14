@@ -383,13 +383,15 @@ dependencies = [
 
 [[package]]
 name = "cargo-near-build"
-version = "0.3.2"
-source = "git+https://github.com/near/cargo-near.git?rev=333a91614bcc71b21843294fbe53b4f2b0c67736#333a91614bcc71b21843294fbe53b4f2b0c67736"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e79fd27a64c34c965d14a81c28c93e512f77439fa4a8a501bb6c262e9e792fe"
 dependencies = [
  "bon",
  "bs58 0.5.1",
  "camino",
  "cargo_metadata",
+ "cc",
  "colored",
  "dunce",
  "eyre",
@@ -403,6 +405,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "symbolic-debuginfo",
+ "tempfile",
  "tracing",
  "wasm-opt",
  "zstd 0.13.2",
@@ -433,9 +436,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.1.21"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "07b1695e2c7e8fc85310cde85aeaab7e3097f593c91d209d3f9df76c928100f0"
+checksum = "fd9de9f2205d5ef3fd67e685b0df337994ddd4495e2a28d185500d0e1edfea47"
 dependencies = [
  "jobserver",
  "libc",
@@ -745,7 +748,7 @@ name = "devhub"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "cargo-near-build 0.3.2",
+ "cargo-near-build 0.4.2",
  "devhub_common",
  "html-escape",
  "insta",
@@ -761,7 +764,7 @@ dependencies = [
 name = "devhub-community"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.3.2",
+ "cargo-near-build 0.4.2",
  "devhub_common",
  "near-sdk",
 ]
@@ -770,7 +773,7 @@ dependencies = [
 name = "devhub-community-factory"
 version = "0.1.0"
 dependencies = [
- "cargo-near-build 0.3.2",
+ "cargo-near-build 0.4.2",
  "devhub_common",
  "near-sdk",
 ]
@@ -3949,7 +3952,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

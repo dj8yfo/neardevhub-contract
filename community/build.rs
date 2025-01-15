@@ -28,11 +28,11 @@ fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
 
     let build_script_opts = extended::BuildScriptOpts::builder()
         .rerun_if_changed_list(bon::vec![workdir, "Cargo.toml", "../Cargo.lock"])
-        .build_skipped_when_env_is(vec![
-            // shorter build for `cargo check`
-            ("PROFILE", "debug"),
-            (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
-        ])
+        // .build_skipped_when_env_is(vec![
+        //     // shorter build for `cargo check`
+        //     ("PROFILE", "debug"),
+        //     (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
+        // ])
         .stub_path("../target/discussions-stub.bin")
         .result_env_key("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS")
         .build();

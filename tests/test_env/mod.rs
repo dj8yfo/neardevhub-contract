@@ -5,6 +5,7 @@ use near_workspaces::types::{AccessKey, KeyType, SecretKey};
 use near_workspaces::{Account, Worker};
 
 use serde_json::json;
+use std::path::Path;
 use std::str::FromStr;
 use std::sync::LazyLock;
 
@@ -27,11 +28,15 @@ pub static DEVHUB_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
 });
 
 static COMMUNITY_FACTORY_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
+    let pwd = Path::new("./").canonicalize().expect("path_new");
+    let sub_target = pwd.join("target/test-target-for-factory");
+    
     let artifact = cargo_near_build::build(cargo_near_build::BuildOpts {
         manifest_path: Some(
             cargo_near_build::camino::Utf8PathBuf::from_str("./community-factory/Cargo.toml")
                 .expect("camino PathBuf from str"),
         ),
+        override_cargo_target_dir: Some(sub_target.to_string_lossy().to_string()),
         ..Default::default()
     })
     .expect("building `devhub-community-factory` contract for tests");

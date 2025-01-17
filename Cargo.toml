@@ -60,4 +60,4 @@ panic = "abort"
 overflow-checks = true
 
 [patch.crates-io]
-cargo-near-build = { git = "https://github.com/dj8yfo/cargo-near.git", rev = "9d3042265bf6ef7ba8f0cb4894613cf5678bec45" }
+cargo-near-build = { git = "https://github.com/dj8yfo/cargo-near.git", rev = "e91bd0364f3b03559e2426ed561e24c6ee37720b" }

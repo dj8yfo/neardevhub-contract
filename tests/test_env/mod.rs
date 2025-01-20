@@ -7,7 +7,6 @@ use near_workspaces::{Account, Worker};
 use serde_json::json;
 use std::path::Path;
 use std::str::FromStr;
-use std::sync::LazyLock;
 
 const DEVHUB_CONTRACT_PREFIX: &str = "devhub";
 const DEVHUB_CONTRACT: &AccountIdRef = AccountIdRef::new_or_panic("devhub.near");
@@ -18,19 +17,15 @@ const NEAR_SOCIAL: &AccountIdRef = AccountIdRef::new_or_panic("social.near");
 const _TEST_NEAR_SOCIAL: &AccountIdRef = AccountIdRef::new_or_panic("v1.social08.testnet");
 const TEST_SEED: &str = "testificate";
 
-pub static DEVHUB_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
-    let artifact =
-        cargo_near_build::build(Default::default()).expect("building `devhub` contract for tests");
-    let contract_wasm = std::fs::read(&artifact.path)
-        .map_err(|err| anyhow!("accessing {} to read wasm contents: {}", artifact.path, err))
-        .expect("std::fs::read");
-    contract_wasm
-});
+pub async fn devhub_contract_wasm() -> Result<Vec<u8>, anyhow::Error> {
+    let wasm = near_workspaces::compile_project("./").await?;
+    Ok(wasm)
+}
 
-static COMMUNITY_FACTORY_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
+pub async fn community_factory_contract_wasm() -> Result<Vec<u8>, anyhow::Error> {
     let pwd = Path::new("./").canonicalize().expect("path_new");
     let sub_target = pwd.join("target/test-target-for-factory");
-    
+
     let artifact = cargo_near_build::build(cargo_near_build::BuildOpts {
         manifest_path: Some(
             cargo_near_build::camino::Utf8PathBuf::from_str("./community-factory/Cargo.toml")
@@ -41,11 +36,12 @@ static COMMUNITY_FACTORY_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
     })
     .expect("building `devhub-community-factory` contract for tests");
 
-    let contract_wasm = std::fs::read(&artifact.path)
+    let contract_wasm = tokio::fs::read(&artifact.path)
+        .await
         .map_err(|err| anyhow!("accessing {} to read wasm contents: {}", artifact.path, err))
         .expect("std::fs::read");
-    contract_wasm
-});
+    Ok(contract_wasm)
+}
 
 #[allow(dead_code)]
 pub async fn init_contracts_from_mainnet() -> anyhow::Result<near_workspaces::Contract> {
@@ -125,7 +121,7 @@ pub async fn init_contracts_from_res(
         .transact()
         .await?
         .into_result()?;
-    let contract = contract_account.deploy(&DEVHUB_CONTRACT_WASM).await?.into_result()?;
+    let contract = contract_account.deploy(&devhub_contract_wasm().await?).await?.into_result()?;
     let _outcome = contract.call("new").args_json(json!({})).transact().await?;
 
     let community_factory_account = contract_account
@@ -135,6 +131,6 @@ pub async fn init_contracts_from_res(
         .await?
         .into_result()?;
     let _community_factory =
-        community_factory_account.deploy(&COMMUNITY_FACTORY_CONTRACT_WASM).await?.into_result()?;
+        community_factory_account.deploy(&community_factory_contract_wasm().await?).await?.into_result()?;
     Ok((contract, worker, near_social))
 }

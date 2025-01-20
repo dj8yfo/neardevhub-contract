@@ -297,7 +297,7 @@ async fn test_rfp() -> anyhow::Result<()> {
         .map(|x| x.as_str().unwrap())
         .collect::<Vec<_>>();
 
-    let expected_labels: Vec<&str> = ["test1", "test2"].to_vec();
+    let expected_labels: Vec<&str> = ["test2", "test1"].to_vec();
     assert_eq!(proposal_labels, expected_labels);
 
     assert_eq!(get_proposal["snapshot"]["linked_rfp"], 0);
@@ -337,7 +337,7 @@ async fn test_rfp() -> anyhow::Result<()> {
         .map(|x| x.as_str().unwrap())
         .collect::<Vec<_>>();
 
-    let expected_labels: Vec<&str> = ["test3", "test2"].to_vec();
+    let expected_labels: Vec<&str> = ["test2", "test3"].to_vec();
     assert_eq!(proposal_labels, expected_labels);
 
     let edit_proposal = contract
@@ -386,7 +386,7 @@ async fn test_rfp() -> anyhow::Result<()> {
         .map(|x| x.as_str().unwrap())
         .collect::<Vec<_>>();
 
-    let expected_labels: Vec<&str> = ["test3", "test2"].to_vec();
+    let expected_labels: Vec<&str> = ["test2", "test3"].to_vec();
     assert_eq!(proposal_labels, expected_labels);
 
     let _edit_rfp_timeline_evaluation = contract

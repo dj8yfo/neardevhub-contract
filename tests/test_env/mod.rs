@@ -1,9 +1,9 @@
 use anyhow::anyhow;
 use near_sdk::{AccountIdRef, NearToken};
+use near_workspaces::cargo_near_build;
 use near_workspaces::network::Sandbox;
 use near_workspaces::types::{AccessKey, KeyType, SecretKey};
 use near_workspaces::{Account, Worker};
-use near_workspaces::cargo_near_build;
 
 use serde_json::json;
 use std::str::FromStr;
@@ -28,14 +28,18 @@ pub static DEVHUB_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
 });
 
 static COMMUNITY_FACTORY_CONTRACT_WASM: LazyLock<Vec<u8>> = LazyLock::new(|| {
-    let artifact = cargo_near_build::build(cargo_near_build::BuildOpts {
-        manifest_path: Some(
+    let pwd = std::path::Path::new("./").canonicalize().expect("path_new");
+    let sub_target = pwd.join("target/test-target-for-factory");
+
+    let build_opts = cargo_near_build::BuildOpts::builder()
+        .manifest_path(
             cargo_near_build::camino::Utf8PathBuf::from_str("./community-factory/Cargo.toml")
                 .expect("camino PathBuf from str"),
-        ),
-        ..Default::default()
-    })
-    .expect("building `devhub-community-factory` contract for tests");
+        )
+        .override_cargo_target_dir(sub_target.to_string_lossy().to_string())
+        .build();
+    let artifact = cargo_near_build::build(build_opts)
+        .expect("building `devhub-community-factory` contract for tests");
 
     let contract_wasm = std::fs::read(&artifact.path)
         .map_err(|err| anyhow!("accessing {} to read wasm contents: {}", artifact.path, err))

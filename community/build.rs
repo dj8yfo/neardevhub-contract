@@ -1,34 +1,40 @@
-use cargo_near_build::extended::BuildScriptOpts;
+use std::str::FromStr;
+
+use cargo_near_build::{bon, camino, extended};
+use cargo_near_build::BuildOpts;
 
 fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
-    println!(
-        "cargo:warning={}",
-        format!(
-            "`devhub-community` build script working dir: {:?}",
-            std::env::current_dir().expect("get current dir")
-        )
-    );
+    // directory of target `devhub-discussions` sub-contract's crate
+    let workdir = "../discussions";
+    // unix path to target `devhub-discussions` sub-contract's crate from root of the repo
+    let nep330_contract_path = "discussions";
 
-    let opts = cargo_near_build::extended::BuildOptsExtended {
-        workdir: "../discussions",
-        env: vec![
-            // unix path of target contract from root of repo
-            (cargo_near_build::env_keys::nep330::CONTRACT_PATH, "discussions"),
-        ],
-        build_opts: Default::default(),
-        build_script_opts: BuildScriptOpts {
-            result_env_key: Some("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS"),
-            rerun_if_changed_list: vec!["../discussions", "Cargo.toml", "../Cargo.lock"],
-            build_skipped_when_env_is: vec![
-                // shorter build for `cargo check`
-                ("PROFILE", "debug"),
-                (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
-            ],
-            distinct_target_dir: Some("../target/build-rs-discussions-for-community"),
-            stub_path: Some("../target/discussions-stub.bin"),
-        },
-    };
+    let manifest = camino::Utf8PathBuf::from_str(workdir)
+        .expect("pathbuf from str")
+        .join("Cargo.toml");
 
-    cargo_near_build::extended::build(opts)?;
+    let build_opts = BuildOpts::builder()
+        .manifest_path(manifest)
+        .override_nep330_contract_path(nep330_contract_path)
+        // a distinct target is needed to avoid deadlock during build
+        .override_cargo_target_dir("../target/build-rs-discussions-for-community")
+        .build();
+
+    let build_script_opts = extended::BuildScriptOpts::builder()
+        .rerun_if_changed_list(bon::vec![workdir, "Cargo.toml", "../Cargo.lock"])
+        .build_skipped_when_env_is(vec![
+            // shorter build for `cargo check`
+            ("PROFILE", "debug"),
+            (cargo_near_build::env_keys::BUILD_RS_ABI_STEP_HINT, "true"),
+        ])
+        .stub_path("../target/discussions-stub.bin")
+        .result_env_key("BUILD_RS_SUB_BUILD_DEVHUB-DISCUSSIONS")
+        .build();
+
+    let extended_opts = extended::BuildOptsExtended::builder()
+        .build_opts(build_opts)
+        .build_script_opts(build_script_opts)
+        .build();
+    cargo_near_build::extended::build(extended_opts)?;
     Ok(())
 }

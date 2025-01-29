@@ -8,7 +8,7 @@ repository = "https://github.com/NEAR-DevHub/neardevhub-contract"
 near-sdk = "5.5.0"
 near-contract-standards = "5.5.0"
 devhub_common = { path = "./devhub_common" }
-cargo-near-build = { version = "0.4.2" }
+cargo-near-build = { version = "0.4.3" }
 
 [package]
 name = "devhub"

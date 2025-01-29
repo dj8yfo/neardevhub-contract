@@ -2307,9 +2307,8 @@ dependencies = [
 
 [[package]]
 name = "near-workspaces"
-version = "0.16.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7e5804591268264c4e308cc84a54f4c7416da6ad34f8ea5c5a4b1842bc5462de"
+version = "0.17.0"
+source = "git+https://github.com/near/workspaces-rs.git?rev=8595a9fb5961893b16fd9af3627179f6fc8405cf#8595a9fb5961893b16fd9af3627179f6fc8405cf"
 dependencies = [
  "async-trait",
  "base64 0.22.1",

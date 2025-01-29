@@ -41,7 +41,7 @@ html-escape = "0.2.13"
 near-sdk = { workspace = true, features = ["unit-testing"] }
 insta = { version = "1.31.0", features = ["json", "redactions"] }
 regex = "1"
-near-workspaces = { version = "0.16.0", features = [
+near-workspaces = { version = "0.17.0", features = [
   "unstable",
 ], default-features = false }
 tokio = { version = "1.10.0", features = ["full"] }
@@ -57,3 +57,6 @@ lto = true
 debug = false
 panic = "abort"
 overflow-checks = true
+
+[patch.crates-io]
+near-workspaces = { git = "https://github.com/near/workspaces-rs.git", rev = "8595a9fb5961893b16fd9af3627179f6fc8405cf" }

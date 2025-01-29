@@ -11,8 +11,8 @@ expression: get_proposal
     "editor_id": "devhub.near",
     "timestamp": "[timestamp]",
     "labels": [
-      "test1",
-      "test2"
+      "test2",
+      "test1"
     ],
     "proposal_body_version": "V2",
     "name": "another post",

@@ -776,7 +776,6 @@ name = "devhub"
 version = "0.2.0"
 dependencies = [
  "anyhow",
- "cargo-near-build",
  "devhub_common",
  "html-escape",
  "insta",

@@ -3,6 +3,7 @@ use near_sdk::{AccountIdRef, NearToken};
 use near_workspaces::network::Sandbox;
 use near_workspaces::types::{AccessKey, KeyType, SecretKey};
 use near_workspaces::{Account, Worker};
+use near_workspaces::cargo_near_build;
 
 use serde_json::json;
 use std::str::FromStr;

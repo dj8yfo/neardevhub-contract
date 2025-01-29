@@ -44,7 +44,6 @@ regex = "1"
 near-workspaces = { version = "0.16.0", features = [
   "unstable",
 ], default-features = false }
-cargo-near-build.workspace = true
 tokio = { version = "1.10.0", features = ["full"] }
 anyhow = "1.0"
 
